@@ -1,0 +1,1 @@
+module.exports={wrap:function(b,a){return function(){try{return b.apply(null,arguments)}catch(d){var c="";if(a!==undefined){c=' (during "'+(a>=0?arguments[a]:a)+'")'}console.error(d.name+": "+d.message+c);console.log(d&&d.stack||d)}}},wrapAll:function(c,b){for(var a in c){if(typeof c[a]==="function"){c[a]=module.exports.wrap(c[a],b?b+a:a)}}},};
