@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
+    <meta property="og:title" content="GasRun - Mobile Gas Trip Calculator" />
+    <meta property="og:image" content="img/preview.png" />
+    <link rel="image_src" href="img/preview.png" />
+    <link href='img/dashboard.png' type="image/x-icon" rel="shortcut icon">
+    <meta name="description" content="Mobile Gas Trip Calculator. Smartphone friendly trip calculator estimates how much you will spend on gas for your next trip to that restaurant on the outskirts of town you and your significant other love, that road trip with your friends every summer, that weekday grocery run, or (just for kicks) that daily commute to work."/>
+    <meta name="keywords" content="Trip calculator, gas cost calculator, driving costs, compare fuel costs, fuel economy, saving gas, gas price forecast, mobile gas trip calculator">
+    <title>GasRun - Mobile Gas Trip Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,900' rel='stylesheet' type='text/css'>
+    <link href="css/main.css" rel="stylesheet" media="screen">
+</head>
+<body>
+<header>
+    <div id="headerContainer">
+        <div class="headerWrapper">
+            <table style="width: 100%;">
+                <tr>
+                    <th><h4><span class="glyphicon glyphicon-dashboard blue"></span> <div style="vertical-align: 1.5px; display: inline;"> GASRUN</div></h4></th>
+                    <th style="text-align: right; width: 35px;"><h5><span id="history" style="cursor: pointer;" class="glyphicon glyphicon-plus orange"></span></h5></th>
+                    <th style="text-align: right; width: 35px;"><h5><span id="info" style="cursor: pointer;" class="glyphicon glyphicon-info-sign blue"></span></h5></th>
+                    <th style="text-align: right; width: 35px;"><h5><a href='mailto:thesleepylazy@gmail.com?subject=GasRun - Feedback'><span id="email" class="glyphicon glyphicon-envelope blue"></span></h5></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</header>
+<section class="wrapper" id="body">
+    <div id="loadingPlaceHolder"></div>
+    <article class="content">
+        <div id="bodyDashBoard" style="display:none;">
+            <p><table class="center" id="gasDashBoard">
+                <tr style="vertical-align:-1px;">
+                    <th></th>
+                    <h3><th style="padding-left:3.5%; font-weight: normal; font-size: 125%;" id="time"></th></h3>
+                </tr>
+                <tr>
+                    <th><h3><span class="glyphicon glyphicon-tint white"></h3></th>
+                    <th ><h1><span style="font-size: 155%;" id="gasPrice" contenteditable="true"></h1></span><h3><span id="unit"></span></h3></th></h1>
+                </tr>
+                <tr>
+                    <th></th>
+                    <h3><th style="padding-left:3.5%; font-weight: normal; font-size: 120%;" id="gasForecast"></th></h3>
+                </tr>
+                <tr style="vertical-align:-1px;">
+                    <th></th>
+                    <h3><th style="padding-left:3.5%; font-weight: normal; font-size: 120%;" id="gasCity"></th></h3>
+                </tr>
+            </table></p>
+        </div>
+        <div id="bodyContent" style="display:none;">
+            <div id="dialog" title="Information" class="dialogClass">
+                <div id="tableScroll">
+                <h6>
+                    <p>Mobile Gas Trip Calculator</p>
+                    <p>Smartphone friendly trip calculator estimates how much you will spend on gas for your next trip to that restaurant on the outskirts of town you and your significant other love, that road trip with your friends every summer, that weekday grocery run, or (just for kicks) that daily commute to work</p>
+                    <p>By providing tomorrow's gas forecast today, we want to help you make informed decisions that will save you money.
+                    <p>Features</p>
+                    <ul style="line-height:1.3;">
+                        <li>today's average gas price in your city</li>
+                        <li>forecast tomorrow's gas trend</li>
+                        <li>editable gas price</li>
+                        <li>proximity based destination auto-complete powered by Google</li>
+                        <li>expansive list of vehicle make, model and year</li>
+                        <li>remembers your vehicle</li>
+                        <li>realistic customer provided car mpg (none of those flawed EPA ratings from maker)</li>
+                        <li>keep a record of your trips and accumulative gas cost for budgeting!</li>
+                    </ul>
+                    Helping save money, one run at a time!</p>
+                    <p>Feature suggestions and feedback are always welcome, send us an email :)</p>
+                </h6>
+                </div>
+            </div>
+            <div id="dialogHistory" title="Run Records" class="dialogClass">
+                <h6>
+                <div id="tableScroll">
+                    <div id="totalHistory"></div>
+                    <table id="historyTable">
+                        <tr id="historyHeadings" style="border-bottom: 1px solid #000">
+                            <h4><th></th>
+                            <th>Cost</th>
+                            <th><span class="glyphicon glyphicon-home green"></span></th>
+                            <th><span class="glyphicon glyphicon-map-marker tomato"></span></th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Run</th></h4>
+                        </tr>
+                    </table>
+                </div>
+                </h6>
+            </div>
+            <p><div id="routeFlip">                
+                <table id="routeFlipContent" class="flipContent">
+                    <tr>
+                        <th style="text-align:left; padding-left:5%;"><span class="glyphicon glyphicon-picture"></span></th>
+                        <th style="text-align:center;"><h4><strong>ROUTE</strong></h4></th>
+                        <th style="text-align:right; padding-right:5%;"><span id="routeArrow" class="glyphicon glyphicon-chevron-down"></span></th>
+                    </tr>
+                </table>
+            </div>
+            <div id="routePanel">
+                <div id="routeContent">
+                    <p><table id="originTable">
+                        <tr>
+                            <th style="font-weight: normal; width: 99%; text-align: right;"><div id="origin"></div></th>
+                            <th><span id="originRefresh" class="glyphicon glyphicon-refresh orange"></span></th>
+                        </tr>
+                    </table></p>
+                    <p><div id="destination"><input type="text" name="destination" placeholder="destination" id="destinationInput" class="form-control" onfocus="this.value=''"/></div></p>
+                </div>
+            </div></p>
+            <p><div id="carFlip">                
+                <table id="carFlipContent" class="flipContent">
+                    <tr>
+                        <th style="text-align:left; padding-left:5%;"><span class="glyphicon glyphicon-wrench"></span></th>
+                        <th style="text-align:center;"><h4><strong>VEHICLE</strong></h4></th>
+                        <th style="text-align:right; padding-right:5%;"><span id="carArrow" class="glyphicon glyphicon-chevron-down"></span></th>
+                    </tr>
+                </table>
+            </div>
+            <div id="carPanel">
+                <div id="carContent">
+                    <div id="dropDowns">
+                        <select id="make" class="form-control">
+                            <option value="" class="btn btn-default btn-lg dropdown-toggle">Make</option>
+                        </select>
+                        <select id="model" class="form-control">
+                            <option value="" class="btn btn-default btn-lg dropdown-toggle">Model</option>
+                        </select>
+                        <select id="year" class="form-control">
+                            <option value="" class="btn btn-default btn-lg dropdown-toggle">Year</option> 
+                        </select>
+                    </div>
+                    <p><table id="carDataTable">
+                        <tr>
+                            <th id="vehicleInfo" style="text-align:left;"></th>
+                            <th id="avgKml" style="text-align:right; font-weight: normal;"></th>
+                        </tr>
+                    </table></p>
+                </div>
+            </div></p>
+            <div id="scrollMarker"></div>
+            <p><div id="totalTripCostFlip">     
+                <table id="totalTripCostFlipContent" class="flipContent">
+                    <tr>
+                        <th style="text-align:left; padding-left:5%;"><span class="glyphicon glyphicon-send"></span></th>
+                        <th style="text-align:center;"><h4><strong>TOTAL TRIP COST</strong></h4></th>
+                        <th style="text-align:right; padding-right:5%;"><span id="totalTripCostArrow" class="glyphicon glyphicon-chevron-down"></span></th>
+                    </tr>
+                </table>
+            </div>
+            <div id="totalTripCostPanel">
+                <div id="totalTripCostContent">
+                    <div id="keyResults">
+                        <p><table id="oneWayTable" class="centerWithWidth">
+                            <tr>
+                                <th style="font-weight: normal;" class="bbBackground"><h3><span class="glyphicon glyphicon-map-marker tomato"></span></h3> <strong>one way</strong></th>
+                            </tr>
+                            <tr>
+                                <th id="totalCostCell"><div id="totalCost" style="display: inline-block;"></div><span id="addToHistory" style="cursor: pointer;" class="glyphicon glyphicon-plus orange"></span></th>
+                            </tr>
+                        </table></p>
+                        <p><table id="roundTripTable" class="centerWithWidth">
+                            <tr>
+                                <th style="font-weight: normal;" class="bbBackground"><h3><span class="glyphicon glyphicon-repeat skyBlue"></span></h3> <strong>round trip</strong></th>
+                            </tr>
+                            <tr>
+                                <th><div id="totalRoundTripCost"></div></th>
+                            </tr>
+                        </table></p>
+                        <p><table id="litresUsedTable" class="centerWithWidth">
+                            <tr>
+                                <th style="font-weight: normal;" class="bbBackground"><h3><span class="glyphicon glyphicon-fire gold"></span></h3> <strong>litres (gal) consumed</strong></th>
+                            </tr>
+                            <tr>
+                                <th><div id="totalLitresUsed"></div></th>
+                            </tr>
+                        </table></p>
+                    </div>
+                    <div id="map_canvas"></div>
+                    <div id="turnByTurnDirections"></div>
+                </div>
+            </div></p>
+        </div>
+    </article>
+    <h5><div id="loadingText"></div></h5>
+</section>
+</body>
+<script src="js/require.js"></script>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script src="js/spin.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYCP6NMeQpXChwW1pHbpKFm2vaSVQcZRA&libraries=geometry,places"></script>
+<script src="js/slideToggle.js"></script>
+<script src="js/main.js"></script>
+</html>
